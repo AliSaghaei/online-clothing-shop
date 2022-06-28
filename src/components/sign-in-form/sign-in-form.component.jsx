@@ -5,7 +5,6 @@ import Button from "../button/button.component";
 
 import {
   signInWithGooglePopup,
-  createUserDocumentFromAuth,
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 
@@ -25,19 +24,14 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      console.log(response);
+      await signInAuthUserWithEmailAndPassword(email, password);
       resetFormFields();
     } catch (error) {
       switch (error.code) {
@@ -50,13 +44,6 @@ const SignInForm = () => {
         default:
           console.log(error);
       }
-
-      // if (error.code === "auth/wrong-password") {
-      //   alert("Incorrect password for email");
-      // } else if (error.code === "auth/user-not-found") {
-      //   alert("");
-      // }
-      // console.log(error);
     }
   };
 
